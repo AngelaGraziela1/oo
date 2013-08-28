@@ -175,7 +175,7 @@ class Venda
 
         $this->pagamentos = $pagamentos;
         foreach ($pagamentos as $item) {
-            echo $item->getMetodo() . ' - ' . $item->getValor();
+            echo $item->getMetodo() . ' - ' . $item->getValor() . '<br>';
         }
 
 
