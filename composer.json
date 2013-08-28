@@ -1,0 +1,11 @@
+{
+    "require": {
+        "php": ">=5.3.14",
+        "easyframework/collections": "2.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
+}
