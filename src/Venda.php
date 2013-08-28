@@ -37,6 +37,8 @@ class Venda {
         $this->atendente = $atendente;
         $this->cliente = $cliente;
         $this->data = $data;
+        $this->itens = new \Easy\Collections\Collection();
+        $this->pagamentos = new \Easy\Collections\Collection();
     }
 
     /**
@@ -148,19 +150,29 @@ class Venda {
     }
 
     public function finalizar(\Easy\Collections\Collection $pagamentos){
-        echo sprintf('Cliente %s - %s', $this->cliente->getNome(), $this->data);
+
+        echo sprintf('Cliente %s - %s', $this->cliente->getNome(), $this->data->format('d-m-Y H:i:s'));
+        echo "<br>";
         echo "-------------------";
+        echo "<br>";
         echo sprintf('Atendente: %s', $this->atendente->getNome());
+        echo "<br>";
         echo '-------------------';
+        echo "<br>";
         echo sprintf('Produto | valorUn | qtde | total');
+        echo "<br>";
 
         foreach($this->itens as $item){
-            echo $item->getProduto()->getDescricao() . ' ' . $item->getProduto()->getPreco() . ' ' . $item->getQtde() . ' ' . $item->getTotal();
+            echo $item->getProduto()->getDescricao() . ' ' . $item->getProduto()->getPreco() . ' ' . $item->getQtde() . ' ' . $item->getTotal() . '<br>';
         }
 
+        echo "<br>";
         echo '-------------------';
+        echo "<br>";
         echo sprintf('Total: %s', $this->getTotal());
+        echo "<br>";
         echo '-------------------';
+        echo "<br>";
 
         $this->pagamentos = $pagamentos;
         foreach($pagamentos as $item){
