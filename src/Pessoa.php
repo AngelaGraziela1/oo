@@ -1,6 +1,7 @@
 <?php
 
-class Pessoa {
+class Pessoa
+{
 
     /**
      * @var bigint

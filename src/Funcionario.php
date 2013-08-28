@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Funcionario extends Pessoa {
+class Funcionario extends Pessoa
+{
 
     private $ctps;
 

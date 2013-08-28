@@ -1,13 +1,7 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: italolelis
- * Date: 8/28/13
- * Time: 3:55 PM
- * To change this template use File | Settings | File Templates.
- */
 
-class Venda {
+class Venda
+{
 
     private $id;
     private $data;
@@ -121,21 +115,25 @@ class Venda {
         return $this->itens;
     }
 
-    public function addItem(ItemVenda $item) {
+    public function addItem(ItemVenda $item)
+    {
         $this->itens->add($item);
     }
 
-    public function addItens(array $items) {
+    public function addItens(array $items)
+    {
         $this->itens->addRange($items);
     }
 
-    public function removerItem(ItemVenda $item) {
+    public function removerItem(ItemVenda $item)
+    {
         $this->itens->remove($item);
     }
 
-    public function getTotal(){
+    public function getTotal()
+    {
         $total = 0;
-        foreach($this->itens as $item){
+        foreach ($this->itens as $item) {
             $total += $item->getTotal();
         }
         return $total;
@@ -149,8 +147,9 @@ class Venda {
         return $this->pagamentos;
     }
 
-    public function finalizar(\Easy\Collections\Collection $pagamentos){
-
+    public function finalizar(\Easy\Collections\Collection $pagamentos)
+    {
+        //TODO Utilizar observer para notificar os interessados
         echo sprintf('Cliente %s - %s', $this->cliente->getNome(), $this->data->format('d-m-Y H:i:s'));
         echo "<br>";
         echo "-------------------";
@@ -162,7 +161,7 @@ class Venda {
         echo sprintf('Produto | valorUn | qtde | total');
         echo "<br>";
 
-        foreach($this->itens as $item){
+        foreach ($this->itens as $item) {
             echo $item->getProduto()->getDescricao() . ' ' . $item->getProduto()->getPreco() . ' ' . $item->getQtde() . ' ' . $item->getTotal() . '<br>';
         }
 
@@ -175,7 +174,7 @@ class Venda {
         echo "<br>";
 
         $this->pagamentos = $pagamentos;
-        foreach($pagamentos as $item){
+        foreach ($pagamentos as $item) {
             echo $item->getMetodo() . ' - ' . $item->getValor();
         }
 

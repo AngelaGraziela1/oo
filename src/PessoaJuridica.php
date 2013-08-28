@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class PessoaJuridica extends Pessoa {
+class PessoaJuridica extends Pessoa
+{
 
     private $cnpj;
 

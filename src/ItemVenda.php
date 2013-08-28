@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ItemVenda {
+class ItemVenda
+{
 
     private $id;
 
@@ -40,7 +41,8 @@ class ItemVenda {
         return $this->qtd;
     }
 
-    public function getTotal(){
+    public function getTotal()
+    {
         return $this->produto->getPreco() * $this->qtd;
     }
 }

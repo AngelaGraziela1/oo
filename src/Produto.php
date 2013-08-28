@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Produto {
+class Produto
+{
 
     private $id;
     private $descricao;
@@ -62,13 +63,15 @@ class Produto {
         return $this->preco;
     }
 
-    public function addEstoque($qtde){
+    public function addEstoque($qtde)
+    {
         $this->estoque += $qtde;
     }
 
-    public function baixarEstoque($qtde){
+    public function baixarEstoque($qtde)
+    {
 
-        if($qtde > $this->estoque){
+        if ($qtde > $this->estoque) {
             throw new LogicException('Estoque insuficiente');
         }
 

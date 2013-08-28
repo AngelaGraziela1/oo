@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Pagamento {
+class Pagamento
+{
 
     private $metodo;
     private $valor;
