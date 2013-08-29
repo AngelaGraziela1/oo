@@ -25,6 +25,9 @@ Composer:
     curl -sS https://getcomposer.org/installer | php
     
 
+Baixando as dependencias
+----
+
 Abra o terminal ou cmd e navege até a pasta onde você clonou (baixaram) o projeto e digite essa linha de comando
 
     composer install
