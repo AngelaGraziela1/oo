@@ -1,6 +1,6 @@
 <?php
 
-class Venda
+class Venda implements SplSubject
 {
 
     private $id;
@@ -25,6 +25,7 @@ class Venda
      * @var Funcionario
      */
     private $atendente;
+    private $observers = array();
 
     public function __construct($atendente, $cliente, $data)
     {
@@ -33,6 +34,7 @@ class Venda
         $this->data = $data;
         $this->itens = new \Easy\Collections\Collection();
         $this->pagamentos = new \Easy\Collections\Collection();
+        $this->observers = new \Easy\Collections\Collection();
     }
 
     /**
@@ -149,36 +151,50 @@ class Venda
 
     public function finalizar(\Easy\Collections\Collection $pagamentos)
     {
-        //TODO Utilizar observer para notificar os interessados
-        echo sprintf('Cliente %s - %s', $this->cliente->getNome(), $this->data->format('d-m-Y H:i:s'));
-        echo "<br>";
-        echo "-------------------";
-        echo "<br>";
-        echo sprintf('Atendente: %s', $this->atendente->getNome());
-        echo "<br>";
-        echo '-------------------';
-        echo "<br>";
-        echo sprintf('Produto | valorUn | qtde | total');
-        echo "<br>";
-
-        foreach ($this->itens as $item) {
-            echo $item->getProduto()->getDescricao() . ' ' . $item->getProduto()->getPreco() . ' ' . $item->getQtde() . ' ' . $item->getTotal() . '<br>';
-        }
-
-        echo "<br>";
-        echo '-------------------';
-        echo "<br>";
-        echo sprintf('Total: %s', $this->getTotal());
-        echo "<br>";
-        echo '-------------------';
-        echo "<br>";
-
         $this->pagamentos = $pagamentos;
-        foreach ($pagamentos as $item) {
-            echo $item->getMetodo() . ' - ' . $item->getValor() . '<br>';
-        }
-
-
+        $this->notify();
     }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Attach an SplObserver
+     * @link http://php.net/manual/en/splsubject.attach.php
+     * @param SplObserver $observer <p>
+     * The <b>SplObserver</b> to attach.
+     * </p>
+     * @return void
+     */
+    public function attach(SplObserver $observer)
+    {
+        $this->observers->add($observer);
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Detach an observer
+     * @link http://php.net/manual/en/splsubject.detach.php
+     * @param SplObserver $observer <p>
+     * The <b>SplObserver</b> to detach.
+     * </p>
+     * @return void
+     */
+    public function detach(SplObserver $observer)
+    {
+        $this->observers->remove($observer);
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Notify an observer
+     * @link http://php.net/manual/en/splsubject.notify.php
+     * @return void
+     */
+    public function notify()
+    {
+        foreach ($this->observers as $value) {
+            $value->update($this);
+        }
+    }
+
 
 }

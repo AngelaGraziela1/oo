@@ -63,6 +63,15 @@ class Produto
         return $this->preco;
     }
 
+    /**
+     * @return int
+     */
+    public function getEstoque()
+    {
+        return $this->estoque;
+    }
+
+
     public function addEstoque($qtde)
     {
         $this->estoque += $qtde;

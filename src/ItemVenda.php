@@ -22,7 +22,6 @@ class ItemVenda
     {
         $this->produto = $produto;
         $this->qtd = $qtd;
-        $this->produto->baixarEstoque($qtd);
     }
 
     /**

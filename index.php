@@ -29,14 +29,21 @@ $prod1->addEstoque(30);
 $prod2 = new Produto();
 $prod2->setDescricao('Pepsi');
 $prod2->setPreco(3.10);
-$prod2->addEstoque(30);
+$prod2->addEstoque(20);
 
 $prod3 = new Produto();
 $prod3->setDescricao('Sanduiche');
 $prod3->setPreco(2.00);
-$prod3->addEstoque(30);
+$prod3->addEstoque(50);
 
 $venda = new Venda($atendente, $clienteFisica, new DateTime());
+
+//Interessados na finalixação da venda
+$estoqueManager = new \Estoque\Manager();
+$venda->attach($estoqueManager);
+
+$impressaoHtml = new \Impressora\Html();
+$venda->attach($impressaoHtml);
 
 $items = array(
     new ItemVenda($prod1, 2),
