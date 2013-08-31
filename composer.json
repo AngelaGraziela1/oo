@@ -1,6 +1,5 @@
 {
     "require": {
-        "php": ">=5.3.14",
         "easyframework/collections": "2.1.*",
         "symfony/debug": "2.3.*"
     },

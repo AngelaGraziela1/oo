@@ -1,6 +1,9 @@
 <?php
 
-class Venda implements SplSubject
+use Event\EventInterface;
+use Observer\SubscriberInterface;
+
+class Venda implements \Observer\ObserverInterface
 {
 
     private $id;
@@ -25,6 +28,7 @@ class Venda implements SplSubject
      * @var Funcionario
      */
     private $atendente;
+
     private $observers = array();
 
     public function __construct($atendente, $cliente, $data)
@@ -120,11 +124,14 @@ class Venda implements SplSubject
     public function addItem(ItemVenda $item)
     {
         $this->itens->add($item);
+        $this->notify(new \Event\AddItemEvent($item));
     }
 
     public function addItens(array $items)
     {
-        $this->itens->addRange($items);
+       foreach($items as $item){
+           $this->addItem($item);
+       }
     }
 
     public function removerItem(ItemVenda $item)
@@ -152,49 +159,32 @@ class Venda implements SplSubject
     public function finalizar(\Easy\Collections\Collection $pagamentos)
     {
         $this->pagamentos = $pagamentos;
-        $this->notify();
+        $this->notify(new \Event\VendaFinalizadaEvent($this));
     }
 
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Attach an SplObserver
-     * @link http://php.net/manual/en/splsubject.attach.php
-     * @param SplObserver $observer <p>
-     * The <b>SplObserver</b> to attach.
-     * </p>
-     * @return void
-     */
-    public function attach(SplObserver $observer)
+    public function attach(SubscriberInterface $subscriber, $event)
     {
-        $this->observers->add($observer);
+        $this->observers->add(array(
+            'event' => $event,
+            'subscriber' => $subscriber
+        ));
     }
 
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Detach an observer
-     * @link http://php.net/manual/en/splsubject.detach.php
-     * @param SplObserver $observer <p>
-     * The <b>SplObserver</b> to detach.
-     * </p>
-     * @return void
-     */
-    public function detach(SplObserver $observer)
+    public function detach(SubscriberInterface $subscriber)
     {
-        $this->observers->remove($observer);
+        $this->observers->remove($subscriber);
     }
 
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Notify an observer
-     * @link http://php.net/manual/en/splsubject.notify.php
-     * @return void
-     */
-    public function notify()
+    public function notify(EventInterface $event)
     {
-        foreach ($this->observers as $value) {
-            $value->update($this);
+        $eventClass = get_class($event);
+
+        foreach ($this->observers as $s) {
+            $subscriber = $s['subscriber'];
+            if ($eventClass === $s['event']) {
+                $subscriber->update($event);
+            }
         }
     }
-
 
 }

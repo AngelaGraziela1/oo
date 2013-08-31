@@ -38,12 +38,15 @@ $prod3->addEstoque(50);
 
 $venda = new Venda($atendente, $clienteFisica, new DateTime());
 
-//Interessados na finalixação da venda
+//Interessados na finalização da venda
 $estoqueManager = new \Estoque\Manager();
-$venda->attach($estoqueManager);
+$venda->attach($estoqueManager, \Event\Events::ON_ADD_ITEM);
 
 $impressaoHtml = new \Impressora\Html();
-$venda->attach($impressaoHtml);
+$venda->attach($impressaoHtml,  \Event\Events::ON_VENDA_FINALIZADA);
+
+$impressaoPdf = new \Impressora\Pdf();
+$venda->attach($impressaoPdf,  \Event\Events::ON_VENDA_FINALIZADA);
 
 $items = array(
     new ItemVenda($prod1, 2),

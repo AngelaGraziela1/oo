@@ -14,14 +14,14 @@ use Event\EventInterface;
 use Observer\SubscriberInterface;
 use SplSubject;
 
-class Html implements SubscriberInterface
+class Pdf implements SubscriberInterface
 {
 
     public function update(EventInterface $event)
     {
         $venda = $event->getVenda();
 
-        $htmlContent = "<h1>HTML</h1>";
+        $htmlContent = "<h1>PDF</h1>";
 
         $htmlContent .= sprintf('Cliente %s - %s', $venda->getCliente()->getNome(), $venda->getData()->format('d-m-Y H:i:s'));
         $htmlContent .= "<br>";

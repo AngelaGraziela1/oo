@@ -9,31 +9,30 @@
 
 namespace Event;
 
-class VendaFinalizadaEvent implements EventInterface
+class AddItemEvent implements EventInterface
 {
 
-    private $venda;
+    private $item;
 
-    public function __construct($venda)
+    public function __construct($item)
     {
-        $this->venda = $venda;
+        $this->item = $item;
     }
 
     /**
-     * @param mixed $venda
+     * @param mixed $item
      */
-    public function setVenda($venda)
+    public function setItem($item)
     {
-        $this->venda = $venda;
+        $this->item = $item;
     }
 
     /**
      * @return mixed
      */
-    public function getVenda()
+    public function getItem()
     {
-        return $this->venda;
+        return $this->item;
     }
-
 
 }
