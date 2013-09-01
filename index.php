@@ -21,6 +21,7 @@ $atendente->setNome('Funcionario 01');
 $atendente->setNascimento(new DateTime());
 $atendente->setCtps('04930420920');
 
+//VENDA 1
 $prod1 = new Produto();
 $prod1->setDescricao('Coca Cola');
 $prod1->setPreco(3.20);
@@ -46,6 +47,9 @@ $venda->attach($estoqueManager, \Event\Events::ON_ADD_ITEM);
 $impressaoHtml = new \Impressora\Html();
 $venda->attach($impressaoHtml,  \Event\Events::ON_VENDA_FINALIZADA);
 
+$estoquePrinter = new \Estoque\Impressora\ImprimirEstoque();
+$venda->attach($estoquePrinter,  \Event\Events::ON_VENDA_FINALIZADA);
+
 $baixarEstoque = new \Estoque\AumentarEstoque();
 $venda->attach($baixarEstoque, \Event\Events::ON_REMOVER_ITEM);
 
@@ -60,7 +64,6 @@ $venda->addItem($item3);
 $venda->removerItem($item1);
 $venda->removerItem($item2, 1);
 
-//TODO Criar enum para os tipos de pagamentos
 $pagamentos = new \Easy\Collections\Collection(array(
     new Pagamento(FormaPagamento::CARTAO_CREDITO, 10),
     new Pagamento(FormaPagamento::DINHEIRO, 5)
@@ -76,21 +79,7 @@ $financeiro->attach($htmlPrinter, \Event\Events::ON_FATURAR_VENDA);
 $financeiro->faturar($venda);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//VENDA 2
 $prod4 = new Produto();
 $prod4->setDescricao('Carro');
 $prod4->setPreco(300);
@@ -116,6 +105,9 @@ $venda2->attach($estoqueManager, \Event\Events::ON_ADD_ITEM);
 $impressaoHtml = new \Impressora\Html();
 $venda2->attach($impressaoHtml,  \Event\Events::ON_VENDA_FINALIZADA);
 
+$estoquePrinter = new \Estoque\Impressora\ImprimirEstoque();
+$venda2->attach($estoquePrinter,  \Event\Events::ON_VENDA_FINALIZADA);
+
 $baixarEstoque = new \Estoque\AumentarEstoque();
 $venda2->attach($baixarEstoque, \Event\Events::ON_REMOVER_ITEM);
 
@@ -130,7 +122,6 @@ $venda2->addItem($item3);
 $venda2->removerItem($item1);
 $venda2->removerItem($item2, 1);
 
-//TODO Criar enum para os tipos de pagamentos
 $pagamentos = new \Easy\Collections\Collection(array(
     new Pagamento(FormaPagamento::CARTAO_CREDITO, 10),
     new Pagamento(FormaPagamento::DINHEIRO, 5)

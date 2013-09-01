@@ -10,6 +10,8 @@
 namespace Impressora;
 
 
+use Component\WebControls\Html\Table\Table;
+use Easy\Utility\Numeric\Number;
 use Event\EventInterface;
 use Observer\SubscriberInterface;
 use SplSubject;
@@ -21,9 +23,9 @@ class Html implements SubscriberInterface
     {
         $venda = $event->getVenda();
 
-        $htmlContent = sprintf("<h1>HTML - %s</h1>", $venda->getId());
+        $htmlContent = sprintf("<h1>Venda - %s</h1>", $venda->getId());
 
-        $htmlContent .= sprintf('Cliente %s - %s', $venda->getCliente()->getNome(), $venda->getData()->format('d-m-Y H:i:s'));
+        $htmlContent .= sprintf('Cliente: %s - %s', $venda->getCliente()->getNome(), $venda->getData()->format('d-m-Y H:i:s'));
         $htmlContent .= "<br>";
         $htmlContent .= "-------------------";
         $htmlContent .= "<br>";
@@ -31,12 +33,17 @@ class Html implements SubscriberInterface
         $htmlContent .= "<br>";
         $htmlContent .= '-------------------';
         $htmlContent .= "<br>";
-        $htmlContent .= sprintf('Produto | valorUn | qtde | total');
-        $htmlContent .= "<br>";
 
+        $tr = "";
         foreach ($venda->getItens() as $item) {
-            $htmlContent .= $item->getProduto()->getDescricao() . ' | ' . $item->getProduto()->getPreco() . ' | ' . $item->getQtde() . ' | ' . $item->getTotal() . '<br>';
+            $html = "";
+            $html .= '<td>' . $item->getProduto()->getDescricao() . '</td>';
+            $html .= sprintf("<td>%s</td>",Number::currency( $item->getProduto()->getPreco(), 'REAL'));
+            $html .= sprintf("<td>%s</td>",$item->getQtde());
+            $html .= sprintf("<td>%s</td>",$item->getTotal());
+            $tr .= sprintf("<tr>%s</tr>", $html);
         }
+        $htmlContent .= $this->createTable($tr);
 
         $htmlContent .= "<br>";
         $htmlContent .= '-------------------';
@@ -48,16 +55,20 @@ class Html implements SubscriberInterface
 
         foreach ($venda->getPagamentos() as $item) {
             $metodo = new \FormaPagamento($item->getMetodo());
-            $htmlContent .= $metodo . ' - ' . $item->getValor() . '<br>';
-        }
-
-        $htmlContent .= "<br>";
-        foreach ($venda->getItens() as $item) {
-            $htmlContent .= $item->getProduto()->getEstoque() . '<br>';
+            $htmlContent .= $metodo . ' - ' . Number::currency($item->getValor(), 'REAL') . '<br>';
         }
 
         echo $htmlContent;
     }
 
+    private function createTable($data){
+        $table = new Table();
+        return $table->render(array(
+            "Produto",
+            "ValorUn",
+            "Qtde",
+            "Total"
+        ), $data);
+    }
 
 }

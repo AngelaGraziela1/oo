@@ -10,6 +10,7 @@
 namespace Impressora\Financeiro;
 
 
+use Easy\Utility\Numeric\Number;
 use Event\EventInterface;
 use Observer\SubscriberInterface;
 
@@ -20,7 +21,9 @@ class Html implements SubscriberInterface {
         $financeiro = $event->getFinanceiro();
 
         $htmlContent = "";
-        $htmlContent .= sprintf("CAIXA: %s", $financeiro->getValorTotal());
+
+        $htmlContent .= sprintf("<strong>CARTOES:</strong> %s", Number::currency($financeiro->getTotalCartao(), 'REAL')) . "<br>";
+        $htmlContent .= sprintf("<strong>CAIXA:</strong> %s", Number::currency($financeiro->getValorTotal(), 'REAL'));
 
         echo $htmlContent;
     }

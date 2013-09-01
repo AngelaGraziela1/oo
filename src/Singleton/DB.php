@@ -36,4 +36,15 @@ class DB {
 
         return static::$instance;
     }
+
+    /**
+     * prevent from being unserialized
+     *
+     * @return void
+     */
+    private function __wakeup()
+    {
+
+    }
+
 }
