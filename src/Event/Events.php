@@ -14,5 +14,6 @@ class Events {
 
     const ON_VENDA_FINALIZADA = "Event\\VendaFinalizadaEvent";
     const ON_ADD_ITEM = "Event\\AddItemEvent";
+    const ON_REMOVER_ITEM = "Event\\RemoverItemEvent";
 
 }

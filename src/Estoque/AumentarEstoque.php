@@ -12,13 +12,13 @@ namespace Estoque;
 use Event\EventInterface;
 use Observer\SubscriberInterface;
 
-class Manager implements SubscriberInterface
+class AumentarEstoque implements SubscriberInterface
 {
 
-    public function update(EventInterface $subject)
+    public function update(EventInterface $event)
     {
-        $item = $subject->getItem();
-        $item->getProduto()->baixarEstoque($item->getQtde());
+        $item = $event->getItem();
+        $item->getProduto()->addEstoque($item->getQtde());
     }
 
 }

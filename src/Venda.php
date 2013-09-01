@@ -137,6 +137,7 @@ class Venda implements \Observer\ObserverInterface
     public function removerItem(ItemVenda $item)
     {
         $this->itens->remove($item);
+        $this->notify(new \Event\RemoverItemEvent($item));
     }
 
     public function getTotal()

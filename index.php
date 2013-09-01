@@ -39,7 +39,7 @@ $prod3->addEstoque(50);
 $venda = new Venda($atendente, $clienteFisica, new DateTime());
 
 //Interessados na finalização da venda
-$estoqueManager = new \Estoque\Manager();
+$estoqueManager = new \Estoque\BaixarEstoque();
 $venda->attach($estoqueManager, \Event\Events::ON_ADD_ITEM);
 
 $impressaoHtml = new \Impressora\Html();
@@ -48,12 +48,19 @@ $venda->attach($impressaoHtml,  \Event\Events::ON_VENDA_FINALIZADA);
 $impressaoPdf = new \Impressora\Pdf();
 $venda->attach($impressaoPdf,  \Event\Events::ON_VENDA_FINALIZADA);
 
-$items = array(
-    new ItemVenda($prod1, 2),
-    new ItemVenda($prod2, 3)
-);
+$baixarEstoque = new \Estoque\AumentarEstoque();
+$venda->attach($baixarEstoque, \Event\Events::ON_REMOVER_ITEM);
 
-$venda->addItens($items);
+$item1 = new ItemVenda($prod2, 2);
+$item2 = new ItemVenda($prod1, 2);
+$item3 = new ItemVenda($prod3, 2);
+
+
+$venda->addItem($item1);
+$venda->addItem($item2);
+$venda->addItem($item3);
+
+$venda->removerItem($item1);
 
 //TODO Criar enum para os tipos de pagamentos
 $pagamentos = new \Easy\Collections\Collection(array(
@@ -65,3 +72,5 @@ $venda->finalizar($pagamentos);
 
 $financeiro = new Financeiro();
 $financeiro->faturar($venda);
+
+
