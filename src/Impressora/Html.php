@@ -21,7 +21,7 @@ class Html implements SubscriberInterface
     {
         $venda = $event->getVenda();
 
-        $htmlContent = "<h1>HTML</h1>";
+        $htmlContent = sprintf("<h1>HTML - %s</h1>", $venda->getId());
 
         $htmlContent .= sprintf('Cliente %s - %s', $venda->getCliente()->getNome(), $venda->getData()->format('d-m-Y H:i:s'));
         $htmlContent .= "<br>";
@@ -47,7 +47,8 @@ class Html implements SubscriberInterface
         $htmlContent .= "<br>";
 
         foreach ($venda->getPagamentos() as $item) {
-            $htmlContent .= $item->getMetodo() . ' - ' . $item->getValor() . '<br>';
+            $metodo = new \FormaPagamento($item->getMetodo());
+            $htmlContent .= $metodo . ' - ' . $item->getValor() . '<br>';
         }
 
         $htmlContent .= "<br>";

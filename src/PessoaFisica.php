@@ -28,4 +28,9 @@ class PessoaFisica extends Pessoa
         return $this->cpf;
     }
 
+    function __toString()
+    {
+        return $this->getNome();
+    }
+
 }

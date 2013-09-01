@@ -44,4 +44,13 @@ class ItemVenda
     {
         return $this->produto->getPreco() * $this->qtd;
     }
+
+    /**
+     * @param mixed $qtd
+     */
+    public function setQtd($qtd)
+    {
+        $this->qtd = $qtd;
+    }
+
 }

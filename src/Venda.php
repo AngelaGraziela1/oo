@@ -29,7 +29,7 @@ class Venda implements \Observer\ObserverInterface
      */
     private $atendente;
 
-    private $observers = array();
+    private $observers;
 
     public function __construct($atendente, $cliente, $data)
     {
@@ -129,14 +129,20 @@ class Venda implements \Observer\ObserverInterface
 
     public function addItens(array $items)
     {
-       foreach($items as $item){
-           $this->addItem($item);
-       }
+        foreach ($items as $item) {
+            $this->addItem($item);
+        }
     }
 
-    public function removerItem(ItemVenda $item)
+    public function removerItem(ItemVenda $item, $qtde = null)
     {
-        $this->itens->remove($item);
+        if ($qtde) {
+            $qtdeOld = $item->getQtde();
+            $item->setQtd($qtdeOld - $qtde);
+        } else {
+            $this->itens->remove($item);
+        }
+
         $this->notify(new \Event\RemoverItemEvent($item));
     }
 
