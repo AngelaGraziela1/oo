@@ -7,7 +7,7 @@
  * Date: 9/1/13
  */
 
-namespace Impressora\Financeiro;
+namespace Financeiro\Impressora;
 
 
 use Easy\Utility\Numeric\Number;

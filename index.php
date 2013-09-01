@@ -44,7 +44,7 @@ $venda->setId(1);
 $estoqueManager = new \Estoque\BaixarEstoque();
 $venda->attach($estoqueManager, \Event\Events::ON_ADD_ITEM);
 
-$impressaoHtml = new \Impressora\Html();
+$impressaoHtml = new \Venda\Impressora\Html();
 $venda->attach($impressaoHtml,  \Event\Events::ON_VENDA_FINALIZADA);
 
 $estoquePrinter = new \Estoque\Impressora\ImprimirEstoque();
@@ -73,7 +73,7 @@ $venda->finalizar($pagamentos);
 
 $financeiro = Financeiro::getInstance();
 
-$htmlPrinter = new \Impressora\Financeiro\Html();
+$htmlPrinter = new \Financeiro\Impressora\Html();
 $financeiro->attach($htmlPrinter, \Event\Events::ON_FATURAR_VENDA);
 
 $financeiro->faturar($venda);
@@ -102,7 +102,7 @@ $venda2->setId(2);
 $estoqueManager = new \Estoque\BaixarEstoque();
 $venda2->attach($estoqueManager, \Event\Events::ON_ADD_ITEM);
 
-$impressaoHtml = new \Impressora\Html();
+$impressaoHtml = new \Venda\Impressora\Html();
 $venda2->attach($impressaoHtml,  \Event\Events::ON_VENDA_FINALIZADA);
 
 $estoquePrinter = new \Estoque\Impressora\ImprimirEstoque();

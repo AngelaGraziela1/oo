@@ -7,7 +7,7 @@
  * Date: 8/29/13
  */
 
-namespace Impressora;
+namespace Venda\Impressora;
 
 
 use Event\EventInterface;
